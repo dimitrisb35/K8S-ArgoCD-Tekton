@@ -24,3 +24,24 @@ ArgoCD -> git repo + k8s cluster
 So argoCD is a pull based Model and its declerative, and TEKTON is a push based model .
 ArgoCD allows you to put you yaml files in a git repo and declare what you want to happen .
 Use Tekton to the step of building and deploy an image and putting an image in a registry and then you can take all your config files put them in a git repo and all you got to do with argoCD is point at the git repo and point it a kubernetes cluster and its going to do the rest.
+
+
+Install tekton  kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+
+<img width="846" height="326" alt="image" src="https://github.com/user-attachments/assets/94b87d49-373d-4b0d-a29d-0fdac335589a" />
+
+Check the pods 
+
+<img width="568" height="92" alt="image" src="https://github.com/user-attachments/assets/5141fd8e-7f6d-494d-a15c-5fcb62dab781" />
+
+Now install ArgoCD 
+
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+<img width="885" height="237" alt="image" src="https://github.com/user-attachments/assets/64f8c5a2-f6ac-4d44-bb31-cda692644bdf" />
+
+Check pods 
+
+<img width="601" height="163" alt="image" src="https://github.com/user-attachments/assets/baf26dc1-6d1a-4cac-b148-b059c04b137b" />

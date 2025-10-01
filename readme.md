@@ -56,3 +56,16 @@ we are on the Argo CD UI
 
 <img width="1881" height="380" alt="image" src="https://github.com/user-attachments/assets/d9501b7f-93d7-4032-a76b-3f16f14be112" />
 
+Install Tekton dashboard 
+
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/release.yaml
+
+<img width="838" height="220" alt="image" src="https://github.com/user-attachments/assets/3f895f8f-b1e5-4230-b24e-4cb8522e5d9f" />
+
+default port for Tekton dashboard is port: 9097
+
+we are on the Tekton dashboard
+
+<img width="1903" height="742" alt="image" src="https://github.com/user-attachments/assets/7d473345-7374-41c9-9d1d-5be986bfa79d" />
+
+

@@ -15,3 +15,5 @@ Code commit → tested → built → deployed without manual steps.
 Tekton tasks run as pods, scaling with cluster.
 
 ArgoCD scales by managing multiple apps and clusters declaratively.
+
+So ArgoCD + Tekton = Better GitOps

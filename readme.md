@@ -1,4 +1,4 @@
-# Tekton + ArgoCD Integration Guide
+# Tekton + ArgoCD 
 
 ## Overview
 

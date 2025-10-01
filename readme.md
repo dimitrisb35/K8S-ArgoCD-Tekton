@@ -111,7 +111,7 @@ The Tekton dashboard runs on port 9097 by default.
 
 ## Dashboard Comparison
 
-### Separate UIs by Design
+### Separate UIs 
 
 There is no single unified UI that natively combines both ArgoCD and Tekton. They solve different problems and maintain separate dashboards:
 

@@ -1,75 +1,149 @@
-Benefits of Combining Tekton + ArgoCD
+# Tekton + ArgoCD Integration Guide
 
-✅ Separation of Concerns
+## Overview
 
-Tekton = builds and tests (ephemeral artifacts).
+This guide demonstrates how to combine Tekton and ArgoCD to create a complete GitOps CI/CD pipeline for Kubernetes applications.
 
-ArgoCD = deployment and long-term state management.
+---
 
-✅ End-to-End Automation
+## Benefits of Combining Tekton + ArgoCD
 
-Code commit → tested → built → deployed without manual steps.   
+### Separation of Concerns
+- **Tekton**: Handles builds and tests (ephemeral artifacts)
+- **ArgoCD**: Manages deployment and long-term state
 
-✅ Scalability & Cloud-Native
+### End-to-End Automation
+Complete automation from code commit through testing, building, and deployment without manual intervention.
 
-Tekton tasks run as pods, scaling with cluster.
+### Scalability & Cloud-Native Architecture
+- Tekton tasks run as pods, scaling dynamically with cluster resources
+- ArgoCD scales by managing multiple applications and clusters declaratively
 
-ArgoCD scales by managing multiple apps and clusters declaratively.
+---
 
-So ArgoCD + Tekton = Better GitOps
+## Architecture Comparison
 
-So tekton -> Tasks + pipelines
-ArgoCD -> git repo + k8s cluster
+### Tekton
+- **Type**: Push-based CI/CD model
+- **Components**: Tasks + Pipelines
+- **Purpose**: Build, test, and push container images to registries
 
-So argoCD is a pull based Model and its declerative, and TEKTON is a push based model .
-ArgoCD allows you to put you yaml files in a git repo and declare what you want to happen .
-Use Tekton to the step of building and deploy an image and putting an image in a registry and then you can take all your config files put them in a git repo and all you got to do with argoCD is point at the git repo and point it a kubernetes cluster and its going to do the rest.
+### ArgoCD
+- **Type**: Pull-based GitOps model
+- **Components**: Git repository + Kubernetes cluster synchronization
+- **Purpose**: Declarative deployment management
+
+### Combined Workflow
+
+1. Tekton builds and tests your application
+2. Tekton pushes the container image to a registry
+3. Configuration files are stored in a Git repository
+4. ArgoCD monitors the Git repository
+5. ArgoCD automatically syncs changes to the Kubernetes cluster
+
+---
 
 
-Install tekton  kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+## Installation
+
+### Install Tekton
+
+```bash
+kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+```
 
 <img width="846" height="326" alt="image" src="https://github.com/user-attachments/assets/94b87d49-373d-4b0d-a29d-0fdac335589a" />
 
-Check the pods 
+**Verify installation:**
 
 <img width="568" height="92" alt="image" src="https://github.com/user-attachments/assets/5141fd8e-7f6d-494d-a15c-5fcb62dab781" />
 
-Now install ArgoCD 
+### Install ArgoCD
 
+```bash
 kubectl create namespace argocd
-
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
 
 <img width="885" height="237" alt="image" src="https://github.com/user-attachments/assets/64f8c5a2-f6ac-4d44-bb31-cda692644bdf" />
 
-Check pods 
+**Verify installation:**
 
 <img width="601" height="163" alt="image" src="https://github.com/user-attachments/assets/baf26dc1-6d1a-4cac-b148-b059c04b137b" />
 
-expose Argocd via loadbalancer ->  kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'LoadBalancer"}}'
+## Configuration
 
-get the argocd Admin password -> kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 --decodede
+### Expose ArgoCD Server
 
-user is : admin
+```bash
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+```
 
-we are on the Argo CD UI
+### Retrieve Admin Password
+
+```bash
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 --decode
+```
+
+**Default credentials:**
+- Username: `admin`
+- Password: (output from command above)
+
+### Access ArgoCD UI
 
 <img width="1881" height="380" alt="image" src="https://github.com/user-attachments/assets/d9501b7f-93d7-4032-a76b-3f16f14be112" />
 
-Install Tekton dashboard 
+### Install Tekton Dashboard
 
+```bash
 kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/release.yaml
+```
 
 <img width="838" height="220" alt="image" src="https://github.com/user-attachments/assets/3f895f8f-b1e5-4230-b24e-4cb8522e5d9f" />
 
-default port for Tekton dashboard is port: 9097
+**Access Tekton Dashboard:**
 
-we are on the Tekton dashboard
+The Tekton dashboard runs on port 9097 by default.
 
 <img width="1903" height="742" alt="image" src="https://github.com/user-attachments/assets/7d473345-7374-41c9-9d1d-5be986bfa79d" />
 
-there’s no single unified UI that natively combines both Argo CD and Tekton. They solve different problems and have separate dashboards:
+---
 
-Argo CD UI → GitOps-focused. Shows the state of applications, sync status, and drift vs Git. You manage deployments, see apps, and rollbacks.
+## Dashboard Comparison
 
-Tekton Dashboard → CI/CD-focused. Shows pipelines, tasks, pipeline runs, logs, and execution status.
+### Separate UIs by Design
+
+There is no single unified UI that natively combines both ArgoCD and Tekton. They solve different problems and maintain separate dashboards:
+
+#### ArgoCD UI
+**Focus**: GitOps deployment management
+- Application state visualization
+- Git synchronization status
+- Drift detection between Git and cluster state
+- Deployment history and rollback capabilities
+
+#### Tekton Dashboard
+**Focus**: CI/CD pipeline execution
+- Pipeline and task definitions
+- Pipeline run status and history
+- Execution logs and debugging
+- Real-time build and test feedback
+
+---
+## Workflow Summary
+
+```
+Code Commit → Tekton Pipeline → Build & Test → Push Image → Update Git
+                                                                ↓
+                                                         ArgoCD Sync
+                                                                ↓
+                                                    Deploy to Kubernetes
+```
+
+This separation of concerns ensures that:
+- Build processes remain independent of deployment state
+- Deployment configuration is version-controlled and auditable
+- Both systems can scale and operate independently
+- Teams can manage CI and CD concerns separately
+
+---

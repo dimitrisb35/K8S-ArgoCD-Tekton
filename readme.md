@@ -45,3 +45,14 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 Check pods 
 
 <img width="601" height="163" alt="image" src="https://github.com/user-attachments/assets/baf26dc1-6d1a-4cac-b148-b059c04b137b" />
+
+expose Argocd via loadbalancer ->  kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'LoadBalancer"}}'
+
+get the argocd Admin password -> kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 --decodede
+
+user is : admin
+
+we are on the Argo CD UI
+
+<img width="1881" height="380" alt="image" src="https://github.com/user-attachments/assets/d9501b7f-93d7-4032-a76b-3f16f14be112" />
+

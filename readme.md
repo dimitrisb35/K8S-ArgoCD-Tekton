@@ -68,4 +68,8 @@ we are on the Tekton dashboard
 
 <img width="1903" height="742" alt="image" src="https://github.com/user-attachments/assets/7d473345-7374-41c9-9d1d-5be986bfa79d" />
 
+there’s no single unified UI that natively combines both Argo CD and Tekton. They solve different problems and have separate dashboards:
 
+Argo CD UI → GitOps-focused. Shows the state of applications, sync status, and drift vs Git. You manage deployments, see apps, and rollbacks.
+
+Tekton Dashboard → CI/CD-focused. Shows pipelines, tasks, pipeline runs, logs, and execution status.

@@ -154,7 +154,7 @@ This separation of concerns ensures that:
 <img width="1387" height="522" alt="image" src="https://github.com/user-attachments/assets/a1440e4c-49e3-4e83-b38d-f59fd88ffd5f" />
 
 ---
-<img width="1380" height="647" alt="image" src="https://github.com/user-attachments/assets/71a75e90-1b63-4870-a133-0c7d9b2923c0" />
+
 
 
 
